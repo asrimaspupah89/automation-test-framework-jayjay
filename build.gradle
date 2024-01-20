@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'application'
 }
 
 group = 'org.example'
@@ -10,10 +11,35 @@ repositories {
 }
 
 dependencies {
+    //Guava is a suite of core and expanded libraries that include utility classes, Google's collections, I/O classes, and much more
+    implementation 'com.google.guava:guava:29.0-jre'
+
+    //library of lightweight, self-contained mathematics and statistics
+    implementation 'org.apache.commons:commons-math3:3.6.1'
+
+    // Use JUnit test framework.
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+
+}
+
+/* build.gradle adding scanner in project */
+run {
+    standardInput = System.in
 }
 
 test {
     useJUnitPlatform()
+    testLogging {
+        events "PASSED", "SKIPPED", "FAILED"
+    }
+}
+
+// Task tambahan
+task greetingTask() {
+    description("Menjalankan task greeting ask")
+    doLast {
+        String nama = project.hasProperty('nama') ? project.property('nama') : 'Gradle User'
+        println "Helo, $nama! Welcome to Gradle World"
+    }
 }
